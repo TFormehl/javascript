@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        function updateOrder() {
+            const TAXRATE = .1;
+            const DONUTPRICE = .5;
+            var numCakeDonuts = parseDonuts(document.getElementById("cakedonuts").value);
+            if (isNaN(numCakeDonuts))
+                numCakeDonuts = 0;
+            var numGlazeDonuts = parseDonuts(document.getElementById("glazeddonuts").value);
+            if (isNaN(numGlazeDonuts))
+                numGlazeDonuts = 0;
+            var subTotal = (numCakeDonuts+numGlazeDonuts)*DONUTPRICE;
+            var tax = subTotal*TAXRATE;
+            var total = subTotal+tax;
+            document.getElementById("subtotal").value = "R$"+subTotal.toFixed(2);
+            document.getElementById("tax").value = "R$"+tax.toFixed(2);
+            document.getElementById("total").value = "R$"+total.toFixed(2);
+        }
+
+        function parseDonuts(donutsString){
+            numDonuts = parseInt(donutsString);
+            if (donutsString.indexOf("dúzia") != -1)
+                numDonuts *= 12;
+            return numDonuts
+        }
+
+        function placeOrder(){
+            if (document.getElementById("name").value == "")
+                alert("Você precisa fornecer um nome antes de enviar o pedido.");
+            else if (document.getElementById("pickupminutes").value == "" || isNaN(document.getElementById("pickupminutes").value))
+                alert("Você deve fornecer o número de minutos até a retirada.");
+            else if (document.getElementById("total").value == 0)
+                alert("Você precisa digitar o número de donuts.");
+            else
+                alert("Pedido enviado com sucesso!");
+                form.submit();
+
+        }
+    </script>
+
+    <style>
+        input {
+            text-align: center;
+            
+        }
+    </style>
+</head>
+<body>
+    <form name="orderform" action="donuts.php" method="post">
+        <div class="field">
+            Nome: <input type="text" id="name" name="name" value="">
+        </div>
+        <div class="field">
+            # of cake donuts: <input type="text" id="cakedonuts" name="cakedonuts" value="" onchange="updateOrder();">
+        </div>
+        <div class="field">
+            # of glazed donuts: <input type="text" id="glazeddonuts" name="glazeddonuts" value="" onchange="updateOrder();">
+        </div>
+        <div class="field">
+            Tempo para retirar: <input type="text" id="pickupminutes" name="pickupminutes" value="">
+        </div>
+        <div class="field">
+            SubTotal: <input type="text" id="subtotal" name="subtotal" value="" onchange="updateOrder();">
+        </div>
+        <div class="field">
+            Imposto: <input type="text" id="tax" name="tax" value="" onchange="updateOrder();">
+        </div>
+        <div class="field">
+            Total: <input type="text" id="total" name="total" value="" onchange="updateOrder();">
+        </div>
+
+
+        <div class="field">
+            <input type="button" value="Enviar Pedido" onclick="placeOrder();">
+
+        </div>
+
+    </form>
+    
+</body>
+</html>
